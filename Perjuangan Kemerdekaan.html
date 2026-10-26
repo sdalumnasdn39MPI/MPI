@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Kemerdekaan - KKG SINDARA KEC. SAIL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #fff1f2; /* Rose 50 */
+            color: #9f1239; /* Rose 800 */
+            overflow-x: hidden;
+        }
+        
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(225, 29, 72, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(225, 29, 72, 0.05) 1px, transparent 1px);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(225, 29, 72, 0.2);
+            box-shadow: 0 10px 30px -5px rgba(159, 18, 57, 0.1);
+        }
+        
+        .btn-bouncy {
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .btn-bouncy:hover { transform: scale(1.05); }
+        .btn-bouncy:active { transform: scale(0.95); }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #ffe4e6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be123c; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timer-bar { transition: width 1s linear; }
+        .section-view { display: none; }
+        .section-view.active { display: block; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-grid">
+
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-rose-900 bg-opacity-60 backdrop-blur-sm z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-gradient-to-b from-rose-800 to-red-900 text-white w-72 flex-shrink-0 h-full flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-30 shadow-2xl border-r border-rose-500/30">
+        <div class="p-6 border-b border-rose-400/30 flex justify-between items-center relative overflow-hidden">
+            <i class="fas fa-flag absolute -right-4 -bottom-4 text-8xl text-white opacity-10 transform -rotate-12"></i>
+            <div class="relative z-10">
+                <h2 class="text-xl font-bold font-nunito tracking-wide text-white">KKG SINDARA</h2>
+                <p class="text-rose-200 text-xs mt-1 tracking-wider uppercase font-semibold">KEC. SAIL</p>
+            </div>
+            <button class="md:hidden text-white hover:text-rose-200 relative z-10" onclick="toggleSidebar()">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <div class="p-4 bg-rose-900/40 border-b border-rose-400/20">
+            <p class="text-xs text-rose-200 uppercase tracking-wider font-bold mb-1"><i class="fas fa-book mr-1"></i> Mata Pelajaran</p>
+            <p class="font-semibold text-sm">Ilmu Pengetahuan Alam dan Sosial (IPAS)</p>
+            <p class="text-xs text-rose-200 uppercase tracking-wider font-bold mt-3 mb-1"><i class="fas fa-user-graduate mr-1"></i> Kelas</p>
+            <p class="font-semibold text-sm">VI (Enam)</p>
+            <p class="text-xs text-yellow-300 uppercase tracking-wider font-bold mt-3 mb-1"><i class="fas fa-landmark mr-1"></i> Topik Utama</p>
+            <p class="font-bold text-lg text-white leading-tight">Sejarah Perjuangan Kemerdekaan</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar">
+            <ul class="space-y-2 px-3">
+                <li><button onclick="navigate('pembukaan')" class="nav-btn w-full text-left px-4 py-3 rounded-xl transition-all font-semibold flex items-center bg-white/20 shadow-inner border border-white/10" data-target="pembukaan"><i class="fas fa-rocket text-yellow-300 w-8 text-lg"></i> Pembukaan</button></li>
+                <li><button onclick="navigate('tujuan')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="tujuan"><i class="fas fa-bullseye text-cyan-300 w-8 text-lg"></i> Tujuan Pelajaran</button></li>
+                <li><button onclick="navigate('materi')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="materi"><i class="fas fa-book-open text-rose-300 w-8 text-lg"></i> Materi Pelajaran</button></li>
+                <li><button onclick="navigate('eksplorasi')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="eksplorasi"><i class="fab fa-youtube text-red-400 w-8 text-lg"></i> Video Pembelajaran</button></li>
+                <li><button onclick="navigate('interaksi')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="interaksi"><i class="fas fa-gamepad text-purple-300 w-8 text-lg"></i> Kegiatan Interaktif</button></li>
+                <li><button onclick="navigate('latihan')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="latihan"><i class="fas fa-laptop-code text-orange-300 w-8 text-lg"></i> Asesmen Sumatif</button></li>
+                <li><button onclick="navigate('rekap')" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 transition-all font-semibold flex items-center border border-transparent" data-target="rekap"><i class="fas fa-chart-line text-emerald-300 w-8 text-lg"></i> Rekap Nilai</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden bg-transparent">
+        <header class="md:hidden bg-white/90 backdrop-blur-md shadow-sm p-4 flex items-center justify-between z-10 relative border-b border-rose-200">
+            <h1 class="font-bold text-lg text-rose-700 truncate"><i class="fas fa-flag mr-2"></i>Sejarah Kemerdekaan</h1>
+            <button onclick="toggleSidebar()" class="text-rose-600 p-2 focus:outline-none bg-rose-50 rounded-lg">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth" id="main-scroll-area">
+            
+            <!-- SECTION 1: PEMBUKAAN -->
+            <section id="pembukaan" class="section-view active fade-in max-w-4xl mx-auto">
+                <div class="glass-panel rounded-3xl p-8 text-center relative overflow-hidden border-t-4 border-red-500">
+                    <div class="inline-block bg-red-100 text-red-800 px-4 py-1 rounded-full font-bold text-sm mb-4 border border-red-200 shadow-sm relative z-10">
+                        <i class="fas fa-star text-yellow-500 mr-1"></i> Mari Belajar Sejarah!
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-rose-800 mb-6 relative z-10 leading-tight">
+                        Selamat Datang, <br/><span class="text-yellow-500 drop-shadow-sm">Pahlawan Masa Depan!</span>
+                    </h1>
+                    
+                    <div class="text-9xl mb-8">🇮🇩</div>
+                    
+                    <p class="text-lg md:text-xl text-rose-800 mb-8 font-medium relative z-10">
+                        Tahukah kamu bagaimana para pahlawan kita berjuang merebut dan mempertahankan kemerdekaan Indonesia? Mari kita telusuri jejak sejarah perjuangan bangsa kita tercinta!
+                    </p>
+
+                    <button onclick="navigate('tujuan')" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-bold btn-bouncy shadow-lg inline-flex items-center gap-2">
+                        Mulai Petualangan Sejarah! <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TUJUAN -->
+            <section id="tujuan" class="section-view fade-in max-w-5xl mx-auto">
+                <div class="glass-panel rounded-3xl p-6 md:p-8 shadow-sm text-center border-t-4 border-rose-500 mb-6">
+                    <h2 class="text-3xl font-black text-rose-800 mb-4"><i class="fas fa-map-signs text-rose-500 mr-2"></i> Peta Tujuan Belajar Kita</h2>
+                    <p class="text-lg text-rose-700">Kita akan mempelajari 3 fase penting dalam sejarah kemerdekaan Indonesia.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4"><i class="fas fa-fist-raised text-3xl text-red-500"></i></div>
+                        <h3 class="font-bold text-xl text-rose-800 mb-2">1. Meraih Kemerdekaan</h3>
+                        <p class="text-rose-600 text-sm">Dari kedatangan bangsa Eropa, penjajahan Jepang, hingga detik-detik Proklamasi 17 Agustus 1945.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4"><i class="fas fa-handshake text-3xl text-blue-500"></i></div>
+                        <h3 class="font-bold text-xl text-rose-800 mb-2">2. Mempertahankan</h3>
+                        <p class="text-rose-600 text-sm">Perjuangan fisik (perang) dan diplomasi (perundingan) untuk mendapatkan pengakuan kedaulatan.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-rose-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4"><i class="fas fa-seedling text-3xl text-green-500"></i></div>
+                        <h3 class="font-bold text-xl text-rose-800 mb-2">3. Mengisi Kemerdekaan</h3>
+                        <p class="text-rose-600 text-sm">Tugas kita sebagai pelajar dan warga negara untuk memajukan Indonesia.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: MATERI PELAJARAN -->
+            <section id="materi" class="section-view fade-in max-w-5xl mx-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-black text-rose-800"><i class="fas fa-book-open text-rose-600 mr-2"></i> Ruang Sejarah</h2>
+                </div>
+
+                <div class="flex overflow-x-auto gap-2 pb-2 mb-6 custom-scrollbar">
+                    <button onclick="showMateriPage(1)" id="tab-materi-1" class="materi-tab whitespace-nowrap px-5 py-2.5 rounded-full bg-red-600 text-white font-bold text-sm transition shadow-md border-2 border-red-600">1. Meraih Kemerdekaan</button>
+                    <button onclick="showMateriPage(2)" id="tab-materi-2" class="materi-tab whitespace-nowrap px-5 py-2.5 rounded-full bg-white text-rose-700 border-2 border-rose-200 font-bold text-sm hover:border-rose-400 transition">2. Diplomasi & Fisik</button>
+                    <button onclick="showMateriPage(3)" id="tab-materi-3" class="materi-tab whitespace-nowrap px-5 py-2.5 rounded-full bg-white text-rose-700 border-2 border-rose-200 font-bold text-sm hover:border-rose-400 transition">3. Mengisi Kemerdekaan</button>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-6 md:p-8 shadow-sm">
+                    <!-- Materi 1 -->
+                    <div id="materi-page-1" class="materi-content block fade-in">
+                        <h3 class="text-2xl font-black text-rose-800 mb-4 border-b pb-2">Jalan Panjang Menuju Proklamasi</h3>
+                        <ul class="space-y-4 text-rose-900">
+                            <li class="bg-rose-50 p-4 rounded-xl border border-rose-100"><strong><i class="fas fa-ship text-blue-500 mr-2"></i> Kedatangan Eropa:</strong> Bangsa Eropa (Portugis, Spanyol, Belanda) datang mencari rempah-rempah yang mahal di Eropa. Belanda lalu menjajah selama 350 tahun.</li>
+                            <li class="bg-rose-50 p-4 rounded-xl border border-rose-100"><strong><i class="fas fa-users text-orange-500 mr-2"></i> Pergerakan Nasional:</strong> Bangsa kita mulai bersatu membentuk organisasi kebangsaan (seperti Budi Utomo) agar perjuangan tidak lagi bersifat kedaerahan.</li>
+                            <li class="bg-rose-50 p-4 rounded-xl border border-rose-100"><strong><i class="fas fa-sun text-red-500 mr-2"></i> Penjajahan Jepang:</strong> Jepang datang pada tahun 1942 dan menjajah dengan kejam (Romusha/kerja paksa) hingga tahun 1945.</li>
+                            <li class="bg-rose-50 p-4 rounded-xl border border-rose-100"><strong><i class="fas fa-bullhorn text-green-500 mr-2"></i> Proklamasi Kemerdekaan:</strong> Setelah Jepang kalah di Perang Dunia 2, Soekarno dan Hatta memproklamasikan kemerdekaan Indonesia pada <strong>17 Agustus 1945</strong>.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Materi 2 -->
+                    <div id="materi-page-2" class="materi-content hidden fade-in">
+                        <h3 class="text-2xl font-black text-rose-800 mb-4 border-b pb-2">Mempertahankan Kemerdekaan</h3>
+                        <p class="mb-4 text-rose-800">Belanda ingin kembali menguasai Indonesia setelah proklamasi. Bangsa kita berjuang dengan 2 cara:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-red-50 p-5 rounded-2xl border border-red-200">
+                                <h4 class="font-bold text-red-800 mb-2"><i class="fas fa-fire mr-2"></i> Perjuangan Fisik (Perang)</h4>
+                                <p class="text-sm text-red-900 mb-2">Melawan dengan senjata secara langsung di medan perang.</p>
+                                <ul class="list-disc pl-5 text-sm text-red-900">
+                                    <li>Pertempuran 10 November di Surabaya.</li>
+                                    <li>Bandung Lautan Api.</li>
+                                    <li>Perang Gerilya oleh Jenderal Soedirman.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200">
+                                <h4 class="font-bold text-blue-800 mb-2"><i class="fas fa-comments mr-2"></i> Perjuangan Diplomasi</h4>
+                                <p class="text-sm text-blue-900 mb-2">Berunding di meja perundingan agar kemerdekaan kita diakui dunia.</p>
+                                <ul class="list-disc pl-5 text-sm text-blue-900">
+                                    <li>Perjanjian Linggarjati.</li>
+                                    <li>Perjanjian Renville.</li>
+                                    <li><strong>Konferensi Meja Bundar (KMB):</strong> Belanda akhirnya mengakui kedaulatan RI pada 1949!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Materi 3 -->
+                    <div id="materi-page-3" class="materi-content hidden fade-in">
+                        <h3 class="text-2xl font-black text-rose-800 mb-4 border-b pb-2">Bagaimana Cara Mengisi Kemerdekaan?</h3>
+                        <p class="mb-4 text-rose-800">Kita tidak perlu lagi berperang melawan penjajah. Tugas kita sekarang adalah memajukan bangsa ini!</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-green-50 p-4 rounded-xl text-center border border-green-200">
+                                <i class="fas fa-book-reader text-4xl text-green-600 mb-2"></i>
+                                <h4 class="font-bold text-green-800">Sebagai Pelajar</h4>
+                                <p class="text-sm text-green-900 mt-2">Belajar dengan rajin, disiplin, dan meraih prestasi yang membanggakan.</p>
+                            </div>
+                            <div class="bg-orange-50 p-4 rounded-xl text-center border border-orange-200">
+                                <i class="fas fa-hands-helping text-4xl text-orange-600 mb-2"></i>
+                                <h4 class="font-bold text-orange-800">Di Masyarakat</h4>
+                                <p class="text-sm text-orange-900 mt-2">Ikut gotong royong, menjaga kerukunan, dan menghargai perbedaan (Bhinneka Tunggal Ika).</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-xl text-center border border-purple-200">
+                                <i class="fas fa-mask text-4xl text-purple-600 mb-2"></i>
+                                <h4 class="font-bold text-purple-800">Menjaga Budaya</h4>
+                                <p class="text-sm text-purple-900 mt-2">Mencintai produk dalam negeri dan melestarikan kesenian daerah.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: VIDEO -->
+            <section id="eksplorasi" class="section-view fade-in max-w-6xl mx-auto">
+                <div class="glass-panel rounded-3xl p-6 shadow-sm border-t-4 border-blue-500">
+                    <h2 class="text-3xl font-black text-rose-800 mb-6"><i class="fas fa-play-circle text-blue-500 mr-2"></i>Video Sejarah</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div onclick="window.open('https://www.youtube.com/results?search_query=Sejarah+kedatangan+bangsa+eropa+ke+indonesia+animasi', '_blank')" class="bg-white rounded-2xl shadow border cursor-pointer hover:shadow-lg transition">
+                            <div class="h-40 bg-rose-600 rounded-t-2xl flex items-center justify-center text-white"><i class="fas fa-ship text-4xl"></i></div>
+                            <div class="p-4 font-bold text-rose-800 text-center">Kedatangan Bangsa Eropa</div>
+                        </div>
+                        <div onclick="window.open('https://www.youtube.com/results?search_query=Detik+detik+proklamasi+kemerdekaan+animasi', '_blank')" class="bg-white rounded-2xl shadow border cursor-pointer hover:shadow-lg transition">
+                            <div class="h-40 bg-red-600 rounded-t-2xl flex items-center justify-center text-white"><i class="fas fa-flag text-4xl"></i></div>
+                            <div class="p-4 font-bold text-rose-800 text-center">Detik-Detik Proklamasi</div>
+                        </div>
+                        <div onclick="window.open('https://www.youtube.com/results?search_query=Perjuangan+mempertahankan+kemerdekaan+indonesia+SD', '_blank')" class="bg-white rounded-2xl shadow border cursor-pointer hover:shadow-lg transition">
+                            <div class="h-40 bg-blue-600 rounded-t-2xl flex items-center justify-center text-white"><i class="fas fa-handshake text-4xl"></i></div>
+                            <div class="p-4 font-bold text-rose-800 text-center">Fisik & Diplomasi</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: INTERAKSI -->
+            <section id="interaksi" class="section-view fade-in max-w-5xl mx-auto">
+                <div class="glass-panel rounded-3xl p-6 md:p-8 shadow-sm border-t-4 border-purple-500">
+                    <h2 class="text-3xl font-black text-rose-800 mb-2"><i class="fas fa-gamepad text-purple-600 mr-2"></i> Misi Sejarah</h2>
+                    <p class="text-rose-700 mb-6">Selesaikan 3 Pos Sejarah ini secara berurutan!</p>
+
+                    <div class="bg-white rounded-3xl border border-rose-200 overflow-hidden relative shadow-inner min-h-[500px]">
+                        <div id="peta-view" class="absolute inset-0 bg-gradient-to-b from-rose-50 to-orange-50 w-full h-full flex flex-col items-center justify-center p-4">
+                            <div class="flex gap-6 z-10">
+                                <div class="flex flex-col items-center group cursor-pointer" onclick="bukaBabak(1)">
+                                    <div class="w-20 h-20 bg-red-500 rounded-2xl shadow-xl flex items-center justify-center border-4 border-white mb-2 btn-bouncy"><i class="fas fa-list-ol text-white text-3xl"></i></div>
+                                    <div class="bg-white px-3 py-1 rounded-full text-sm font-bold text-rose-800 shadow">Pos 1</div>
+                                </div>
+                                <div id="icon-pos-2" class="flex flex-col items-center group cursor-pointer" onclick="bukaBabak(2)">
+                                    <div class="w-20 h-20 bg-slate-300 rounded-2xl shadow-xl flex items-center justify-center border-4 border-white mb-2 btn-bouncy"><i class="fas fa-lock text-slate-500 text-3xl"></i></div>
+                                    <div class="bg-white px-3 py-1 rounded-full text-sm font-bold text-rose-800 shadow opacity-60">Pos 2</div>
+                                </div>
+                                <div id="icon-pos-3" class="flex flex-col items-center group cursor-pointer" onclick="bukaBabak(3)">
+                                    <div class="w-20 h-20 bg-slate-300 rounded-2xl shadow-xl flex items-center justify-center border-4 border-white mb-2 btn-bouncy"><i class="fas fa-lock text-slate-500 text-3xl"></i></div>
+                                    <div class="bg-white px-3 py-1 rounded-full text-sm font-bold text-rose-800 shadow opacity-60">Pos 3</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="game-view" class="hidden w-full h-full flex flex-col p-4 md:p-6 bg-slate-50 relative z-20">
+                            <div class="flex justify-between items-center mb-6 pb-4 border-b border-rose-200">
+                                <button onclick="kembaliKePeta()" class="bg-white border-2 border-rose-300 text-rose-700 px-4 py-2 rounded-xl font-bold hover:bg-rose-50"><i class="fas fa-arrow-left mr-2"></i> Peta</button>
+                                <h3 class="font-black text-xl text-rose-800" id="game-title">Pos 1</h3>
+                            </div>
+                            <div id="game-board" class="flex-1 w-full overflow-y-auto custom-scrollbar pb-20"></div>
+                            <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-4 z-30">
+                                <button onclick="cekBabak()" class="px-8 py-3 bg-red-500 text-white rounded-xl font-bold btn-bouncy shadow-md">Cek Jawaban</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: LATIHAN -->
+            <section id="latihan" class="section-view fade-in max-w-4xl mx-auto">
+                <div id="quiz-registration" class="glass-panel rounded-3xl p-6 md:p-10 shadow-sm border-t-4 border-orange-500">
+                    <h2 class="text-3xl font-black text-rose-800 mb-2"><i class="fas fa-laptop-code text-orange-500 mr-2"></i> Ujian Sejarah</h2>
+                    <p class="text-rose-700 mb-8">Jawablah 20 pertanyaan untuk menguji wawasan kebangsaanmu!</p>
+                    
+                    <div class="bg-white p-8 rounded-3xl shadow-sm max-w-xl mx-auto border border-rose-100">
+                        <div class="mb-5">
+                            <label class="block text-rose-800 font-bold mb-2">Nama Pahlawan Cilik</label>
+                            <input type="text" id="reg-name" class="w-full px-5 py-3 border-2 border-rose-200 rounded-xl bg-rose-50" placeholder="Ketik namamu..." required>
+                        </div>
+                        <button onclick="startQuiz()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-4 rounded-xl btn-bouncy shadow">MULAI UJIAN</button>
+                    </div>
+                </div>
+
+                <div id="quiz-interface" class="hidden glass-panel rounded-3xl p-6 md:p-8 shadow-sm border-t-4 border-red-500">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="bg-red-100 text-red-800 font-bold px-4 py-2 rounded-full" id="quiz-progress">Soal 1/20</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm mb-6 min-h-[250px] border border-rose-100">
+                        <h3 class="text-xl font-bold text-rose-900 mb-6" id="quiz-question-text">...</h3>
+                        <div class="flex flex-col gap-3" id="quiz-options"></div>
+                    </div>
+                    <div class="flex justify-end hidden" id="quiz-navigation">
+                        <button onclick="nextQuestion()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold btn-bouncy shadow-md">Lanjut <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <div id="quiz-result" class="hidden glass-panel rounded-3xl p-10 shadow-sm text-center border-t-4 border-green-500">
+                    <h2 class="text-3xl font-black text-rose-800 mb-2">Ujian Selesai! 🎉</h2>
+                    <div class="text-7xl font-black text-red-600 mb-4 mt-4" id="result-score">100</div>
+                    <button onclick="navigate('rekap')" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-black btn-bouncy mt-6">Lihat Rekap Nilai</button>
+                </div>
+            </section>
+            
+            <!-- SECTION 7: REKAP -->
+            <section id="rekap" class="section-view fade-in max-w-5xl mx-auto">
+                <div class="glass-panel rounded-3xl p-6 md:p-8 shadow-sm border-t-4 border-emerald-500">
+                    <h2 class="text-3xl font-black text-rose-800 mb-6"><i class="fas fa-server text-emerald-600 mr-2"></i> Database Nilai</h2>
+                    <div class="overflow-x-auto bg-white rounded-2xl shadow-sm border border-rose-100">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-rose-50 text-rose-800 border-b-2 border-rose-100">
+                                    <th class="p-4 font-bold">Rank</th>
+                                    <th class="p-4 font-bold">Nama</th>
+                                    <th class="p-4 font-bold text-center">Skor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="score-table-body">
+                                <tr><td colspan="3" class="p-6 text-center text-rose-600 font-bold">Belum ada data nilai.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="custom-modal" class="fixed inset-0 bg-rose-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl text-center border-t-8 border-red-500" id="custom-modal-content">
+            <h2 id="cm-title" class="text-2xl font-black text-rose-900 mb-3"></h2>
+            <p id="cm-message" class="text-rose-700 mb-6 font-medium"></p>
+            <button id="cm-btn" class="w-full bg-red-500 text-white font-bold py-3 rounded-xl btn-bouncy">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.toggle('hidden');
+        }
+
+        function navigate(sectionId) {
+            document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if(sectionId === 'rekap') renderScores();
+        }
+
+        function showModalMsg(title, message, callback = null) {
+            const m = document.getElementById('custom-modal');
+            document.getElementById('cm-title').innerText = title;
+            document.getElementById('cm-message').innerText = message;
+            document.getElementById('cm-btn').onclick = () => { m.classList.add('hidden'); if(callback) callback(); };
+            m.classList.remove('hidden');
+        }
+
+        function showMateriPage(pageNum) {
+            document.querySelectorAll('.materi-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.materi-tab').forEach(el => el.className = 'materi-tab whitespace-nowrap px-5 py-2.5 rounded-full bg-white text-rose-700 border-2 border-rose-200 font-bold text-sm');
+            document.getElementById(`materi-page-${pageNum}`).classList.remove('hidden');
+            document.getElementById(`tab-materi-${pageNum}`).className = 'materi-tab whitespace-nowrap px-5 py-2.5 rounded-full bg-red-600 text-white font-bold text-sm shadow-md border-2 border-red-600';
+        }
+
+        // GAME LOGIC
+        let babakAktif = 1, progresMaksimal = 1, jawabanBabak = [];
+        
+        function bukaBabak(b) {
+            if(b > progresMaksimal) return showModalMsg('Terkunci!', 'Selesaikan pos sebelumnya!');
+            document.getElementById('peta-view').classList.add('hidden'); document.getElementById('game-view').classList.remove('hidden');
+            renderBabak(b);
+        }
+        function kembaliKePeta() { document.getElementById('peta-view').classList.remove('hidden'); document.getElementById('game-view').classList.add('hidden'); }
+        
+        function updateKunciPeta() {
+            for(let i=2; i<=3; i++) {
+                let ic = document.getElementById(`icon-pos-${i}`);
+                if(i <= progresMaksimal) ic.innerHTML = `<div class="w-20 h-20 bg-red-500 rounded-2xl shadow-xl flex items-center justify-center border-4 border-white mb-2"><i class="fas fa-check text-white text-3xl"></i></div><div class="bg-white px-3 py-1 rounded-full text-sm font-bold text-rose-800 shadow">Pos ${i}</div>`;
+            }
+        }
+
+        const g1_opts = ["Kedatangan Eropa", "Penjajahan Jepang", "Proklamasi", "Pengakuan Kedaulatan"];
+        const g2_opts = [{q: "Pertempuran 10 November", a: "Fisik"}, {q: "Perjanjian Linggarjati", a: "Diplomasi"}, {q: "Perang Gerilya", a: "Fisik"}, {q: "Konferensi Meja Bundar", a: "Diplomasi"}];
+        const g3_opts = [{q: "Belajar dengan rajin", a: "Benar"}, {q: "Ikut tawuran", a: "Salah"}, {q: "Gotong royong di desa", a: "Benar"}, {q: "Mencoret fasilitas umum", a: "Salah"}];
+
+        function renderBabak(b) {
+            babakAktif = b; 
+            const board = document.getElementById('game-board'); let html = '';
+            document.getElementById('game-title').innerText = `Pos ${b}`;
+            
+            if(b===1) {
+                jawabanBabak = [null,null,null,null];
+                html += `<p class="mb-4 font-bold text-rose-800">Urutkan peristiwa sejarah dari yang paling awal!</p>`;
+                [1,2,3,4].forEach((_,i) => {
+                    html += `<select class="w-full p-3 mb-3 border rounded text-rose-800 font-bold" onchange="jawabanBabak[${i}]=this.value"><option value="null">-- Urutan ke-${i+1} --</option>${g1_opts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>`;
+                });
+            } else if(b===2) {
+                jawabanBabak = [null,null,null,null];
+                html += `<p class="mb-4 font-bold text-rose-800">Termasuk perjuangan Fisik atau Diplomasi?</p>`;
+                g2_opts.forEach((s,i) => {
+                    html += `<div class="flex justify-between items-center bg-white p-3 mb-2 rounded border"><span class="font-bold">${s.q}</span><select onchange="jawabanBabak[${i}]=this.value" class="border p-2 rounded"><option value="null">-Pilih-</option><option value="Fisik">Fisik</option><option value="Diplomasi">Diplomasi</option></select></div>`;
+                });
+            } else if(b===3) {
+                jawabanBabak = [null,null,null,null];
+                html += `<p class="mb-4 font-bold text-rose-800">Manakah yang mencerminkan cara mengisi kemerdekaan?</p>`;
+                g3_opts.forEach((s,i) => {
+                    html += `<div class="flex justify-between items-center bg-white p-3 mb-2 rounded border"><span class="font-bold">${s.q}</span><select onchange="jawabanBabak[${i}]=this.value" class="border p-2 rounded"><option value="null">-Pilih-</option><option value="Benar">Benar</option><option value="Salah">Salah</option></select></div>`;
+                });
+            }
+            board.innerHTML = html;
+        }
+
+        function cekBabak() {
+            if(jawabanBabak.includes(null) || jawabanBabak.includes("null")) return showModalMsg('Gagal', 'Isi semua jawaban!');
+            let benar = true;
+            if(babakAktif===1) { g1_opts.forEach((o,i)=>{if(jawabanBabak[i]!==o) benar=false;}); }
+            if(babakAktif===2) { g2_opts.forEach((o,i)=>{if(jawabanBabak[i]!==o.a) benar=false;}); }
+            if(babakAktif===3) { g3_opts.forEach((o,i)=>{if(jawabanBabak[i]!==o.a) benar=false;}); }
+            
+            if(benar) {
+                if(babakAktif<3) { progresMaksimal = Math.max(progresMaksimal, babakAktif+1); updateKunciPeta(); showModalMsg('Luar Biasa!', 'Misi berhasil!', () => kembaliKePeta()); }
+                else showModalMsg('SELESAI!', 'Kamu Ahli Sejarah!', () => kembaliKePeta());
+            } else { showModalMsg('Salah', 'Coba lagi pahlawan!'); }
+        }
+
+        // KUIS LOGIC
+        const bankSoal = [
+            {q:"Tujuan awal bangsa Eropa datang ke Indonesia adalah mencari...", opts:["Emas","Rempah-rempah","Batu Bara","Minyak"], ans:1},
+            {q:"Negara yang menjajah Indonesia selama 3,5 tahun dengan sistem Romusha adalah...", opts:["Belanda","Portugis","Inggris","Jepang"], ans:3},
+            {q:"Teks Proklamasi Kemerdekaan Indonesia dibacakan oleh...", opts:["Muh. Yamin","Soekarno","Bung Tomo","Jenderal Soedirman"], ans:1},
+            {q:"Proklamasi Kemerdekaan Indonesia dilaksanakan pada tanggal...", opts:["1 Juni 1945","17 Agustus 1945","10 November 1945","20 Mei 1908"], ans:1},
+            {q:"Organisasi pergerakan nasional pertama di Indonesia adalah...", opts:["Budi Utomo","Sarekat Islam","Indische Partij","PKI"], ans:0},
+            {q:"Melawan penjajah menggunakan senjata di medan perang disebut perjuangan...", opts:["Fisik","Diplomasi","Perundingan","Ekonomi"], ans:0},
+            {q:"Tokoh pahlawan yang memimpin perang gerilya melawan Belanda dalam keadaan sakit adalah...", opts:["Bung Tomo","Pangeran Diponegoro","Jenderal Soedirman","Soekarno"], ans:2},
+            {q:"Pertempuran heroik pada 10 November 1945 terjadi di kota...", opts:["Bandung","Surabaya","Jakarta","Semarang"], ans:1},
+            {q:"Contoh perjuangan mempertahankan kemerdekaan melalui jalur Diplomasi (perundingan) adalah...", opts:["Perang Puputan","Peristiwa Rengasdengklok","Bandung Lautan Api","Perjanjian Linggarjati"], ans:3},
+            {q:"Konferensi Meja Bundar (KMB) dilaksanakan di kota...", opts:["Jakarta","Tokyo","Den Haag (Belanda)","London"], ans:2},
+            {q:"Melalui Konferensi Meja Bundar (KMB) tahun 1949, Belanda akhirnya...", opts:["Menyerah tanpa syarat","Mengakui kedaulatan Indonesia","Memulai perang baru","Menjajah kembali"], ans:1},
+            {q:"Tokoh pemuda yang mengetik teks naskah proklamasi adalah...", opts:["Sayuti Melik","Sukarni","Wikana","Ahmad Soebardjo"], ans:0},
+            {q:"Bendera Merah Putih pertama yang dikibarkan saat proklamasi dijahit oleh...", opts:["Ibu Kartini","Ibu Fatmawati","Cut Nyak Dien","Dewi Sartika"], ans:1},
+            {q:"Cara seorang pelajar untuk mengisi kemerdekaan adalah...", opts:["Bermain game seharian","Bolos sekolah","Belajar dengan rajin dan tekun","Ikut tawuran"], ans:2},
+            {q:"Sikap yang mencerminkan upaya menjaga kemerdekaan di lingkungan masyarakat adalah...", opts:["Gotong royong membersihkan desa","Mengurung diri di rumah","Mengejek tetangga","Membuang sampah sembarangan"], ans:0},
+            {q:"Sebagai bangsa yang merdeka, kita harus menghargai perbedaan sesuai dengan semboyan...", opts:["Tut Wuri Handayani","Bhinneka Tunggal Ika","Merdeka atau Mati","Bersatu kita teguh"], ans:1},
+            {q:"Salah satu tindakan yang mencintai budaya bangsa sendiri adalah...", opts:["Lebih suka produk luar negeri","Mempelajari tarian tradisional","Merusak fasilitas umum","Membenci lagu daerah"], ans:1},
+            {q:"Kerja paksa pada masa penjajahan Jepang yang sangat menyengsarakan rakyat disebut...", opts:["Kerja Rodi","Romusha","Cultuurstelsel","Monopoli"], ans:1},
+            {q:"Mengapa bangsa kita mengubah cara perlawanan dari kedaerahan menjadi pergerakan nasional?", opts:["Agar mudah dikalahkan","Karena disuruh Belanda","Agar lebih bersatu dan kuat mengusir penjajah","Agar mendapat hadiah"], ans:2},
+            {q:"Golongan muda menculik Soekarno-Hatta ke Rengasdengklok dengan tujuan...", opts:["Menyakiti mereka","Mendesak agar proklamasi segera dilaksanakan","Menyerahkan kepada Jepang","Menyembunyikan dari Belanda"], ans:1}
+        ];
+
+        let indexSoal=0, skorKuis=0;
+        function startQuiz() {
+            if(!document.getElementById('reg-name').value.trim()) return showModalMsg('Gagal', 'Isi namamu!');
+            document.getElementById('quiz-registration').classList.add('hidden');
+            document.getElementById('quiz-interface').classList.remove('hidden');
+            indexSoal=0; skorKuis=0; loadQuestion();
+        }
+
+        function loadQuestion() {
+            const s = bankSoal[indexSoal];
+            document.getElementById('quiz-progress').innerText = `Soal ${indexSoal + 1} / 20`;
+            document.getElementById('quiz-question-text').innerText = s.q;
+            document.getElementById('quiz-navigation').classList.add('hidden');
+            
+            const oc = document.getElementById('quiz-options'); oc.innerHTML='';
+            s.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-xl border-2 border-rose-100 hover:border-red-500 font-bold bg-rose-50 text-rose-800 opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    document.querySelectorAll('.opt-btn').forEach(b => { b.disabled=true; b.classList.add('opacity-50'); });
+                    btn.classList.remove('opacity-50');
+                    if(idx === s.ans) { btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800'); skorKuis+=5; }
+                    else { btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800'); }
+                    document.getElementById('quiz-navigation').classList.remove('hidden');
+                };
+                oc.appendChild(btn);
+            });
+        }
+
+        function nextQuestion() {
+            indexSoal++;
+            if(indexSoal < 20) loadQuestion();
+            else {
+                document.getElementById('quiz-interface').classList.add('hidden');
+                document.getElementById('quiz-result').classList.remove('hidden');
+                document.getElementById('result-score').innerText = skorKuis;
+                let data = JSON.parse(localStorage.getItem('scores_sejarah') || '[]');
+                data.push({name: document.getElementById('reg-name').value, score: skorKuis});
+                localStorage.setItem('scores_sejarah', JSON.stringify(data));
+            }
+        }
+
+        function renderScores() {
+            let data = JSON.parse(localStorage.getItem('scores_sejarah') || '[]').sort((a,b) => b.score - a.score);
+            let html = data.length===0 ? '<tr><td colspan="3" class="p-6 text-center">Belum ada data.</td></tr>' : 
+                data.map((d,i) => `<tr class="border-b"><td class="p-4">${i+1}</td><td class="p-4 font-bold uppercase">${d.name}</td><td class="p-4 text-center font-black text-red-600">${d.score}</td></tr>`).join('');
+            document.getElementById('score-table-body').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
